@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+while [ $# -gt 0 ]
+do
+  case "$(tr '[:upper:]' '[:lower:]'<<<$1)" in
+    -font)
+      fontFile="$2"
+      shift
+    ;;
+
+  esac
+  shift
+done
