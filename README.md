@@ -12,15 +12,15 @@ The script accepts a few arguments:
 
   A ttf file to train for.
 
-`-traininglines` (Default: `traininglines.txt`)
+* `-traininglines` (Default: `traininglines.txt`)
 
   A text file with lines of text for tif and txt generation for training.
 
-`-fontsize` (Default: `15`)
+* `-fontsize` (Default: `15`)
 
   An optional desired font size for generating .tif's.
 
-`--`
+* `--`
 
   An optional flag to pass arguments through to tesstrain
 
