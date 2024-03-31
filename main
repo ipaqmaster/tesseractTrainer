@@ -76,20 +76,12 @@ mkdir -p tesstrain/data/${fontFileGroundTruthDir}
 
 # Check if we need to generate or regenerate our tifs and txts.
 
-if ls tesstrain/data/${fontFileGroundTruthDir}/*gt.txt >/dev/null 2>&1
+if [ -d tesstrain/data/${fontFileGroundTruthDir} ]
 then
-  existingLines=$(cat $(ls -1 tesstrain/data/${fontFileGroundTruthDir}/*gt.txt | sort -V))
-  trainingLinesContent="$(<"${trainingLines}")"
+  echo "tesstrain/data/${fontFileGroundTruthDir} already exists"
+  echo "To regenerate tifs and txt's delete this directory and run again to cater for any new changes."
 
-  if [[ "${existingLines}" == "${trainingLinesContent}" ]]
-  then
-    echo "Training Lines match existing generated txts. Skipping tif regeneration."
-    skipTraining=1
-  fi
-fi
-
-if [ -z "${skipTraining}" ]
-then
+else
   # Generate tifs and txt's for training.
   echo "Generating tif's and transcription txt's..."
   inc=0
