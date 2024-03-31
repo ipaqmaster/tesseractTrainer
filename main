@@ -2,7 +2,7 @@
 
 # Defaults
 fontSize=15
-wordList=./wordlist.txt
+trainingLines=./traininglines.txt
 
 _scriptRoot="$(dirname $(realpath $0))"
 cd "${_scriptRoot}"
@@ -15,9 +15,9 @@ do
       echo "Using font file: ${fontFile}"
       shift
     ;;
-    -wordlist)
-      wordList="$2"
-      echo "Using custom wordlist: ${wordList}"
+    -traininglines)
+      trainingLines="$2"
+      echo "Using custom traininglines file: ${trainingLines}"
       shift
     ;;
     -fontsize)
@@ -40,15 +40,15 @@ then
   exit 1
 fi
 
-# Validate that the default wordlist file or a custom -wordlist file has been provided and exists.
-if [ -z "${wordList}" ]
+# Validate that the default traininglines file or a custom -traininglines file has been provided and exists.
+if [ -z "${trainingLines}" ]
 then
   echo "Need a '-font filename' to train"
   exit 1
-elif ! [ -f "${wordList}" ]
+elif ! [ -f "${trainingLines}" ]
 then
-  echo "Wordlist file :${wordList}: doesn't exist."
-  echo "Create one with lines of text you wish to train against or specify a different file with '-wordlist filename'"
+  echo "Wordlist file :${trainingLines}: doesn't exist."
+  echo "Create one with lines of text you wish to train against or specify a different file with '-traininglines filename'"
   exit 1
 fi
 
@@ -86,9 +86,9 @@ do
   # Create a text file of the image text to train against.
   echo "${textLine}" > tesstrain/data/${fontFileGroundTruthDir}/${inc}.gt.txt
   ((inc++))
-done < ${wordList}
+done < ${trainingLines}
 
 
 # Start training.
-echo "Beginning training for ${fontFile} with text lines generated from ${wordList}"
+echo "Beginning training for ${fontFile} with text lines generated from ${trainingLines}"
 cd tesstrain && make training MODEL_NAME=${fontFileNoSuffix}
