@@ -23,5 +23,6 @@ The script accepts a few arguments:
 `--`
 
   An optional flag to pass arguments through to tesstrain
+
   e.g., `-- MAX_ITERATIONS=1000000 TARGET_ERROR_RATE=0.001`
 
