@@ -99,7 +99,7 @@ then
             -fill white \
             -font ${fontFile} \
             -pointsize ${fontSize} \
-            label:"${textLine}" \
+            label:"${textLine//%/\\%}" \
             -depth 8 \
             tesstrain/data/${fontFileGroundTruthDir}/${inc}.tif
   
@@ -108,7 +108,6 @@ then
     ((inc++))
   done < ${trainingLines}
 fi
-
 
 # Start training.
 echo "Beginning training for ${fontFile} with text lines generated from ${trainingLines}"
