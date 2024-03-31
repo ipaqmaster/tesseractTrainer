@@ -25,6 +25,12 @@ do
       echo "Generating tifs with custom font size: ${fontSize}"
       shift
     ;;
+    --)
+      shift
+      echo "Assuming the remaining arguments are intended for tesstrain: ${@}"
+      remainingArguments="${@}"
+      break
+    ;;
   esac
   shift
 done
@@ -91,4 +97,4 @@ done < ${trainingLines}
 
 # Start training.
 echo "Beginning training for ${fontFile} with text lines generated from ${trainingLines}"
-cd tesstrain && make training MODEL_NAME=${fontFileNoSuffix}
+cd tesstrain && make training MODEL_NAME=${fontFileNoSuffix} ${remainingArguments}

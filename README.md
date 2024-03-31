@@ -2,14 +2,25 @@
 
 ## About
 
-This is a bash script for quickly training a new .traineddata for any font.ttf file.
+This is a bash script for quickly training a new .traineddata for any given font.ttf file when given a text file of lines to generate and train against.
 
 ## Usage
 
-The script accepts a few arguments: `-font` `-traininglines` `-fontsize`.
+The script accepts a few arguments:
 
-There is a default fontsize of `15` and it assumes the traininglines is `./traininglines.txt`.
+* `-font` (Required)
 
-The traininglines should contains lines the script should generate training .tif's for (And .txt files accompanying them)
+A ttf file to train for.
 
-The script will then generate tifs and txt files transcribing them in a ground-truth directory for your chosen font and will begin training with tesstrain immediately.
+`-traininglines` (Default: `traininglines.txt`)
+
+A text file with lines of text for tif and txt generation for training.
+
+`-fontsize` (Default: `15`)
+
+An optional desired font size for generating .tif's.
+
+`--`
+
+An optional flag to pass arguments through to tesstrain (e.g., `-- MAX_ITERATIONS=1000000 TARGET_ERROR_RATE=0.001`)
+
