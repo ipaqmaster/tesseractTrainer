@@ -101,10 +101,10 @@ then
             -pointsize ${fontSize} \
             label:"${textLine//%/\\%}" \
             -depth 8 \
-            tesstrain/data/${fontFileGroundTruthDir}/${inc}.tif
+            tesstrain/data/${fontFileGroundTruthDir}/eng_${inc}.tif
   
     # Create a text file of the image text to train against.
-    echo "${textLine}" > tesstrain/data/${fontFileGroundTruthDir}/${inc}.gt.txt
+    echo -n "${textLine}" > tesstrain/data/${fontFileGroundTruthDir}/eng_${inc}.gt.txt
     ((inc++))
   done < ${trainingLines}
 fi
