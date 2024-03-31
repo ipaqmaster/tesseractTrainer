@@ -66,9 +66,6 @@ else
   git -C tesstrain pull
 fi
 
-# Use cv2 instead of PIL.Image to generate boxes from our tif's (PIL.Image doesn't seem to support tif's)
-#git -C tesstrain apply cv2.patch
-
 fontFileBasename="$(basename "${fontFile}")"
 fontFileNoSuffix="${fontFile/.*/}"
 fontFileGroundTruthDir="${fontFileNoSuffix}-ground-truth"
