@@ -46,6 +46,10 @@ then
   exit 1
 fi
 
+fontFileBasename="$(basename "${fontFile}")"
+fontFileNoSuffix="${fontFile/.*/}"
+fontFileGroundTruthDir="${fontFileNoSuffix}-ground-truth"
+
 # Validate that the default traininglines file or a custom -traininglines file has been provided and exists.
 if [ -z "${trainingLines}" ]
 then
@@ -66,30 +70,44 @@ else
   git -C tesstrain pull
 fi
 
-fontFileBasename="$(basename "${fontFile}")"
-fontFileNoSuffix="${fontFile/.*/}"
-fontFileGroundTruthDir="${fontFileNoSuffix}-ground-truth"
-
-
 # Make a training directory
 mkdir -p tesstrain/data/${fontFileGroundTruthDir}
 
-# Generate some tifs to train our traineddata file.
-inc=0
-while read textLine
-do
-  convert -background black \
-          -fill white \
-          -font ${fontFile} \
-          -pointsize ${fontSize} \
-          label:"${textLine}" \
-          -depth 8 \
-          tesstrain/data/${fontFileGroundTruthDir}/${inc}.tif
 
-  # Create a text file of the image text to train against.
-  echo "${textLine}" > tesstrain/data/${fontFileGroundTruthDir}/${inc}.gt.txt
-  ((inc++))
-done < ${trainingLines}
+# Check if we need to generate or regenerate our tifs and txts.
+
+if ls tesstrain/data/${fontFileGroundTruthDir}/*gt.txt >/dev/null 2>&1
+then
+  existingLines=$(cat $(ls -1 tesstrain/data/${fontFileGroundTruthDir}/*gt.txt | sort -V))
+  trainingLinesContent="$(<"${trainingLines}")"
+
+  if [[ "${existingLines}" == "${trainingLinesContent}" ]]
+  then
+    echo "Training Lines match existing generated txts. Skipping tif regeneration."
+    skipTraining=1
+  fi
+fi
+
+if [ -z "${skipTraining}" ]
+then
+  # Generate tifs and txt's for training.
+  echo "Generating tif's and transcription txt's..."
+  inc=0
+  while read textLine
+  do
+    convert -background black \
+            -fill white \
+            -font ${fontFile} \
+            -pointsize ${fontSize} \
+            label:"${textLine}" \
+            -depth 8 \
+            tesstrain/data/${fontFileGroundTruthDir}/${inc}.tif
+  
+    # Create a text file of the image text to train against.
+    echo "${textLine}" > tesstrain/data/${fontFileGroundTruthDir}/${inc}.gt.txt
+    ((inc++))
+  done < ${trainingLines}
+fi
 
 
 # Start training.
