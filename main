@@ -109,6 +109,10 @@ then
   done < ${trainingLines}
 fi
 
+# Fetch best eng.traineddata for basing our custom training from.
+mkdir -p tesstrain/tessdata
+wget -nc -P tesstrain/tessdata https://raw.githubusercontent.com/tesseract-ocr/tessdata_best/main/eng.traineddata
+
 # Start training.
 echo "Beginning training for ${fontFile} with text lines generated from ${trainingLines}"
-cd tesstrain && make training MODEL_NAME=${fontFileNoSuffix} ${remainingArguments}
+cd tesstrain && make training TESSDATA=tessdata START_MODEL=eng MODEL_NAME=${fontFileNoSuffix} ${remainingArguments} -j $(nproc)
