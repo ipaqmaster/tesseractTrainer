@@ -70,10 +70,6 @@ else
   git -C tesstrain pull
 fi
 
-# Make a training directory
-mkdir -p tesstrain/data/${fontFileGroundTruthDir}
-
-
 # Check if we need to generate or regenerate our tifs and txts.
 
 if [ -d tesstrain/data/${fontFileGroundTruthDir} ]
@@ -82,6 +78,9 @@ then
   echo "To regenerate tifs and txt's delete this directory and run again to cater for any new changes."
 
 else
+  # Make a training directory
+  mkdir -p tesstrain/data/${fontFileGroundTruthDir}
+
   # Generate tifs and txt's for training.
   echo "Generating tif's and transcription txt's..."
   inc=0
