@@ -86,7 +86,7 @@ else
   inc=0
   while read textLine
   do
-    convert -background black \
+    magick  -background black \
             -fill white \
             -font ${fontFile} \
             -pointsize ${fontSize} \
